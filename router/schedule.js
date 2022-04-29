@@ -46,6 +46,7 @@ router.get('/' , (req, res, next) => {
     const date = req.query.date;
     if(date){
         const data = scheduleData.filter((schedule) => schedule.date === date)
+        console.log(data);
         res.status(200).json(data);
     }else{
         res.status(200).json(scheduleData);
@@ -55,6 +56,7 @@ router.get('/' , (req, res, next) => {
 router.get('/:id' , (req, res, next) =>{
     const id = req.params.id;
     const data = scheduleData.find((schedule) => schedule.id === id)
+    console.log(data);
     res.status(200).json(data)
 });
 //Post schedule
@@ -68,6 +70,7 @@ router.post('/' , validateSchedule ,(req, res, next) =>{
     };
     scheduleData = [...scheduleData, schedule];
 
+    console.log(data);
     res.status(201).json(schedule);
 });
 //Update schedule
@@ -80,6 +83,7 @@ router.put('/:id' , validateSchedule ,(req, res, next) =>{
     data.title = title;
     data.text = text;
 
+    console.log(data);
     res.status(200).json(data);
 });
 //Delete schedule
@@ -87,7 +91,8 @@ router.delete('/:id' , (req, res, next) =>{
     const id = req.params.id;
 
     scheduleData = scheduleData.filter((schedule) => schedule.id !== id)
-
+    
+    console.log(scheduleData);
     res.sendStatus(204);
 });
 
