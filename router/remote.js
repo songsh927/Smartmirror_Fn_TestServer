@@ -10,6 +10,25 @@ var statusData = {
     "tempStatus" : "off",
 }
 
+var lightStatus = {
+    "ctrl": "off",
+    "redValue": "",
+    "greenValue": "",
+    "blueValue": ""
+}
+
+var curtainStatus = {
+    "ctrl" : "off",
+    "openTime" : "",
+    "closeTime" : ""
+}
+
+var tempStatus = {
+    "ctrl" : "off",
+    "onTime" : "",
+    "offTime" : ""
+}
+
 router.get('/', (req, res, next) => {
     console.log(statusData);
     res.status(200).json(statusData);
@@ -22,8 +41,8 @@ router.get('/tempcontroller' , (req, res, next) => {
     res.status(200).json(statusData.tempStatus);
 });
 //  Update stauts
-router.post('/tempcontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
+router.post('/tempcontroller/:ctrl' , (req, res, next) => {
+    const ctrl = req.params.ctrl;
     statusData.tempStatus = ctrl;
 
     console.log(statusData.tempStatus);
@@ -39,8 +58,8 @@ router.get('/lightcontroller' , (req, res, next) => {
     res.status(200).json(statusData.lightStatus);
 });
 //  Update stauts
-router.post('/lightcontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
+router.post('/lightcontroller/:ctrl' , (req, res, next) => {
+    const ctrl = req.params.ctrl;
     statusData.lightStatus = ctrl;
 
     console.log(statusData.lightStatus);
@@ -56,8 +75,8 @@ router.get('/curtaincontroller' , (req, res, next) => {
     res.status(200).json(statusData.curtainStatus);
 });
 //  Update stauts
-router.post('/curtaincontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
+router.post('/curtaincontroller/:ctrl' , (req, res, next) => {
+    const ctrl = req.params.ctrl;
     statusData.curtainStatus = ctrl;
 
     console.log(statusData.curtainStatus);
