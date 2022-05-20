@@ -11,6 +11,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors('*'));
 
+
 app.use('/schedule', scheduleRouter);
 app.use('/remote', remoteRouter);
 
@@ -24,4 +25,4 @@ app.use((error, req, res, next) => {
 })
 
 
-app.listen(3000);
+app.listen(8080);
