@@ -1,67 +1,100 @@
 import express from 'express';
 import 'express-async-errors';
-
-
 const router = express.Router();
 
-var statusData = {
-    "lightStatus" : "off",
-    "curtainStatus" : "off",
-    "tempStatus" : "off",
+
+var lightModule = {
+    "ctrl": "off",
+    "redValue": "",
+    "greenValue": "",
+    "blueValue": ""
 }
 
-router.get('/', (req, res, next) => {
-    console.log(statusData);
-    res.status(200).json(statusData);
-});
+var curtainModule = {
+    "ctrl" : "off",
+    "onTime" : "",
+    "offTime" : ""
+}
+
+var tempModule = {
+    "ctrl" : "off",
+    "onTime" : "",
+    "offTime" : "",
+    "temp" : ""
+}
+
+
 /////////////////////////////
 //  tempremote controller  //
 //  Get status
-router.get('/tempcontroller' , (req, res, next) => {
-    console.log(statusData.tempStatus);
-    res.status(200).json(statusData.tempStatus);
+router.get('/4' , (req, res, next) => {
+    res.status(200).json(tempModule);
 });
 //  Update stauts
-router.post('/tempcontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
-    statusData.tempStatus = ctrl;
-
-    console.log(statusData.tempStatus);
-    res.status(200).json(statusData.tempStatus);
+router.post('/4' , (req, res, next) => {
+    const {ctrl, onTime, offTime, temp} = req.body;
+    tempModule.ctrl = ctrl;
+    tempModule.onTime = onTime;
+    tempModule.offTime = offTime;
+    tempModule.temp = temp;
+    res.status(200).json(tempModule);
 });
 /////////////////////////////
 
 /////////////////////////////
 //  light controller       //
 //  Get status
-router.get('/lightcontroller' , (req, res, next) => {
-    console.log(statusData.lightStatus);
-    res.status(200).json(statusData.lightStatus);
+router.get('/3' , (req, res, next) => {
+    res.status(200).json(lightModule);
 });
 //  Update stauts
-router.post('/lightcontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
-    statusData.lightStatus = ctrl;
+router.post('/3' , (req, res, next) => {
+    const {ctrl, redValue, greenValue, blueValue} = req.body;
+    console.log('req: ',req.body);
 
-    console.log(statusData.lightStatus);
-    res.status(200).json(statusData.lightStatus);
+    lightModule.ctrl = ctrl;
+    lightModule.redValue = redValue;
+    lightModule.greenValue = greenValue;
+    lightModule.blueValue = blueValue;
+    res.status(200).json(lightModule);
 });
 /////////////////////////////
 
 /////////////////////////////
 //curtain controller       //
 //  Get status
-router.get('/curtaincontroller' , (req, res, next) => {
-    console.log(statusData.curtainStatus);
-    res.status(200).json(statusData.curtainStatus);
+router.get('/5' , (req, res, next) => {
+    res.status(200).json(curtainModule);
 });
 //  Update stauts
-router.post('/curtaincontroller' , (req, res, next) => {
-    const ctrl = req.body.ctrl;
-    statusData.curtainStatus = ctrl;
+router.post('/5' , (req, res, next) => {
+    const {ctrl, onTime, offTime} = req.body;
 
-    console.log(statusData.curtainStatus);
-    res.status(200).json(statusData.curtainStatus);
+    curtainModule.ctrl = ctrl;
+    curtainModule.onTime = onTime;
+    curtainModule.offTime = offTime;
+    res.status(200).json(curtainModule);
 });
 /////////////////////////////
+
+router.post('/controller/:ctrl',(req, res, next) => {
+    const ctrl = req.params.ctrl;
+    const opts = req.query;
+    console.log(ctrl);
+    console.log(opts);
+    res.sendStatus(200);
+})
+
+router.get('/status/:ctrl', (req, res, next) => {
+    const ctrl = req.params.ctrl;
+
+    if(ctrl == 'lightStatus'){
+        res.status(200).json(lightStatus);
+    }else if(ctrl == 'curtainStatus'){
+        res.status(200).json(curtainStatus);
+    }else{
+        res.status(200).json(tempStatus);
+    }
+})
+
 export default router;
